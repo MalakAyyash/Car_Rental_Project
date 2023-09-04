@@ -1,0 +1,11 @@
+
+    .coverImg{
+        background-image: url('/public/Images/carLogo.jpg');
+        background-size: cover;
+    }
+    .logo{
+        border-radius: 100%;
+    }
+    .logoTitle{
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
