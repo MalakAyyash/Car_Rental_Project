@@ -4,18 +4,26 @@ import './Sidebar.css';
 
 export default function Sidebar() {
   return (
-    <div>
-      <div className="border border-2 border-black border-top-0 sidebar">
-      <div className="border-2 border-black border-bottom ">
-        <a href="#"><p className="text-black p-2" id="sidebarLink1" ><img src='#' alt='img' /></p></a>
-      </div>
-      <div className="border-2 border-black border-bottom ">
-        <a href="#"><p className="text-black p-2" id="sidebarLink1" >Car</p></a>
-      </div>
-      <div className="border-2 border-black border-bottom ">
-        <a href="#"><p className="text-black p-2" id="sidebarLink2" >History</p></a>
-      </div>
-    </div>
-    </div>
+<div className="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar " style={{width: 280}}>
+    <span className="fs-4  d-flex align-items-center justify-content-center"><img src="../images/user.jpg" alt="logo"  className ="w-75" />
+</span>
+  <hr />
+  <ul className="nav nav-pills flex-column mb-auto">
+    <li className="nav-item">
+      <a href="#" className="nav-link bg-secondary active" aria-current="page">
+        <svg className="bi me-2" width={16} height={16}><use xlinkHref="#home" /></svg>
+        Cars
+      </a>
+    </li>
+    <li>
+      <a href="#" className="nav-link link-dark">
+        <svg className="bi me-2" width={16} height={16}><use xlinkHref="#speedometer2" /></svg>
+        History
+      </a>
+    </li>
+  </ul>
+ 
+</div>
+
   )
 }

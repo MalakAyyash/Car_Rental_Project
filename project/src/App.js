@@ -21,18 +21,7 @@ const analytics = getAnalytics(app);
 function App() {
   return (
   <>
-   {/* < Navbar />
-   <div className='row'>
-    <div className='col-2' >
-   < Sidebar />
-   </div>
-   <div className='col-10'>
-   < CarsList />
-   </div>
-   </div> */}
-
-   {/* <Signup /> */}
-   {/* <Login /> */}
+  
 
    </>
   );

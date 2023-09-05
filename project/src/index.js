@@ -10,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import Layout from './Component/Layout/Layout.tsx';
 import LoginPage from './Component/LoginPage/LoginPage.tsx';
 import Signup from './Component/Signup/Signup.tsx';
+import Home from './Component/Home/Home.tsx';
 
 function Main() {
 
@@ -18,8 +19,10 @@ function Main() {
       path: '/',
       element: <Layout />,
       children: [
-        { index: true, element: <LoginPage /> },
+        {index: true, element: <LoginPage /> },
         {path: 'Signup', element:<Signup/>},
+        {path: 'Home', element:<Home/>},
+
       ],
     },
     // {
