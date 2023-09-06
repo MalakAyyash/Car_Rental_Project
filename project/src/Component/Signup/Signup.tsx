@@ -1,10 +1,13 @@
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'; 
 import * as Yup from 'yup';
 import { ref, push, set } from 'firebase/database';
 import { database } from '../Firebase/Firebase';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 
 const schema = Yup.object({ // validation 
+  photo: Yup.string().required("photo is required"),
   fname: Yup.string().required("name is required"),
   email: Yup.string().required("email is required").email('not valid email'),
   password: Yup.string().required("password is required").min(6,"min is 6 char"),
@@ -12,7 +15,14 @@ const schema = Yup.object({ // validation
 
 });
 
+
+
 export default function Signup() {
+
+  const [imageUrl, setImageUrl] = useState('');
+
+
+
     const formik = useFormik({ // Formik to store the data from form 
         initialValues:{ //initial value
             photo: '',
@@ -21,7 +31,7 @@ export default function Signup() {
             password: '',
             confirm: ''
         },validationSchema:schema,
-        onSubmit: (values) => {
+        onSubmit:async  (values) => {
             console.log('Form submitted with values:', values);
             const signupRef = ref(database, 'signupData');
             const newSignupEntry = push(signupRef); // Push a new entry
@@ -49,13 +59,15 @@ export default function Signup() {
                    </div>
                    <form onSubmit={formik.handleSubmit}>
                    <div className="form-outline mb-4"> {/* img url */}
-
-                     <label className="form-label" htmlFor="photo">Personal img</label>
-                       <input type="file" id="photo" className="form-control" value={formik.values.photo} onChange={formik.handleChange} />
+                   <label className="form-label" htmlFor="photo">Add Personal Image</label>
+                       <input type="text" id="photo" className="form-control" value={formik.values.photo}  onChange={formik.handleChange} />
+                       {/* error massage */}
+                       <p className='text-danger'>{formik.errors.photo}</p>
+                   
                      </div>
                    <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="fname">Name</label>
-                       <input type="text" id="fname" className="form-control" value={formik.values.fname} onChange={formik.handleChange}/>
+                       <input type="text" id="fname" className="form-control" value={formik.values.fname}  onChange={formik.handleChange} />
                        {/* error massage */}
                        <p className='text-danger'>{formik.errors.fname}</p>
                      </div>

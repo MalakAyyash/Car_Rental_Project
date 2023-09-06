@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import './LoginPage.css';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik'
@@ -10,9 +10,10 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function LoginPage() {
-  
-  const [error, setError] = useState(null);
+  let [user,setUser] = useState(null)
 
+  const [error, setError] = useState(null);
+  const [login, setLogin] = useState(false);
 
     const formik = useFormik({ // Formik to store the data from form 
         initialValues:{ //initial value
@@ -33,6 +34,9 @@ export default function LoginPage() {
           );
           if (userKey && userData[userKey].Password === values.password) {
             console.log('Login success');
+            localStorage.setItem('userData',JSON.stringify(userData[userKey]))
+            setLogin(true)
+            
           } else {
             setError("Invalid email or password. Please try again.");
           }
@@ -71,7 +75,9 @@ export default function LoginPage() {
                   </div>
                   <div className="text-center pt-1 mb-5 pb-1">
                     <button className='btn rounded-0 btn-block fa-lg  mb-3 me-2 text-light bg-secondary' type="submit">
-                      <Link  className=" text-light text-decoration-none" to="Home">Login</Link>
+                      {login ?<Link className=" text-light text-decoration-none" to="Home">Login</Link>:
+                      <button  className=" text-light text-decoration-none btn" >Login</button>}
+
                       </button>
                     {error && (
                       <div className="alert alert-danger" role="alert">
