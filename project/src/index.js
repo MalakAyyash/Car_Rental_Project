@@ -20,12 +20,13 @@ function Main() {
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/' ,
       element: <Layout />,
       children: [
         {index: true,element: (
-        
-            <LoginPage />
+          storedData? <Home  />:<LoginPage />
+
+            // <LoginPage />
         ),},
         {path: 'Signup', element:<Signup/>},
         
@@ -33,6 +34,10 @@ function Main() {
          
             storedData? <Home  />:<PageNotFound />
       
+          ),},
+          {path: 'login', element:(
+         
+            storedData? <Home  />:<LoginPage />      
           ),},
         {path: '*', element:<PageNotFound/>},
 

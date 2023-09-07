@@ -3,6 +3,8 @@ import Navbar from '../Navbar/Navbar.tsx'
 import Sidebar from '../Sidebar/Sidebar.tsx'
 import CarsList from '../CarsList/CarsList.tsx'
 import LoginPage from '../LoginPage/LoginPage.tsx';
+import './Home.css';
+
 
 export default function Home() {
 
@@ -10,14 +12,14 @@ export default function Home() {
   //get the data from locak storage
   if (storedData) {
   return (
-          <div>
+          <div className='home'>
       <Navbar />
       <div className='row'>
-        <div className='col-4' >
+        <div className='col-2' >
           < Sidebar storedData={storedData} />
         </div>
-      <div className='col-8'>
-        {/* <CarsList /> */}
+      <div className='col-10'>
+        <CarsList />
 
 
       </div>

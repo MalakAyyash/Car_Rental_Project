@@ -2,8 +2,7 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'; 
 import * as Yup from 'yup';
 import { ref, push, set } from 'firebase/database';
-import { database } from '../Firebase/Firebase';
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { database , firebase } from '../Firebase/Firebase';
 
 
 const schema = Yup.object({ // validation 
@@ -16,12 +15,7 @@ const schema = Yup.object({ // validation
 });
 
 
-
 export default function Signup() {
-
-  const [imageUrl, setImageUrl] = useState('');
-
-
 
     const formik = useFormik({ // Formik to store the data from form 
         initialValues:{ //initial value
@@ -43,6 +37,13 @@ export default function Signup() {
             });
           },
     })
+    const [imgUpload , setimgUpload] = useState(null)
+    const uploadImage = () =>{
+      if (imgUpload => null) return;
+    };
+
+ 
+
   return ( //html form
     <div>
     <section className="h-100 gradient-form" style={{backgroundColor: '#eee'}}>
@@ -57,11 +58,13 @@ export default function Signup() {
                    <img src="/Images/logo.jpg" className='border border-balck w-25 logo' alt="logo" />
                      <h4 className="mt-1 mb-3 pb-1 logoTitle">Car Rental</h4>
                    </div>
-                   <form onSubmit={formik.handleSubmit}>
-                   <div className="form-outline mb-4"> {/* img url */}
+                   <form onSubmit={formik.handleSubmit} >
+
+           
+                     <div className="form-outline mb-4"> {/* img url */}
                    <label className="form-label" htmlFor="photo">Add Personal Image</label>
-                       <input type="text" id="photo" className="form-control" value={formik.values.photo}  onChange={formik.handleChange} />
-                       {/* error massage */}
+                   <input type="text" className="form-control" onChange={formik.handleChange} />
+
                        <p className='text-danger'>{formik.errors.photo}</p>
                    
                      </div>

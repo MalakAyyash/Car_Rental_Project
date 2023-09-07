@@ -19,4 +19,4 @@ import { getDatabase, ref, push, set } from 'firebase/database';
       const database = getDatabase(firebase);
       
 
-export { database };
+export { database , firebase};

@@ -1,0 +1,28 @@
+.carCard h2 {
+    font-weight: 600;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 30px;
+    padding-left: 10%;
+}
+.carCard{
+    position: relative;
+}
+.carCard img{
+    height:250px;
+}
+.carCard h3 {
+    font-size: 20px;
+    padding-left: 10%;
+    background-color: green;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.carCard p {
+    font-size: 15px;
+    padding-left: 10%;
+    display: flex;
+    justify-content: center;
+    height: 150px;
+   
+}

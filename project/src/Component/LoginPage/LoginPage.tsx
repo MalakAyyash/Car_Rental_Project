@@ -10,9 +10,8 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function LoginPage() {
-  let [user,setUser] = useState(null)
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [login, setLogin] = useState(false);
 
     const formik = useFormik({ // Formik to store the data from form 
