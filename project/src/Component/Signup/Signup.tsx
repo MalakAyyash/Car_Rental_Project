@@ -2,7 +2,11 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'; 
 import * as Yup from 'yup';
 import { ref, push, set } from 'firebase/database';
-import { database , firebase } from '../Firebase/Firebase';
+import { database, storage } from '../Firebase/Firebase';
+
+
+
+
 
 
 const schema = Yup.object({ // validation 
@@ -16,6 +20,8 @@ const schema = Yup.object({ // validation
 
 
 export default function Signup() {
+
+
 
     const formik = useFormik({ // Formik to store the data from form 
         initialValues:{ //initial value
@@ -60,15 +66,13 @@ export default function Signup() {
                    </div>
                    <form onSubmit={formik.handleSubmit} >
 
-           
-                     <div className="form-outline mb-4"> {/* img url */}
-                   <label className="form-label" htmlFor="photo">Add Personal Image</label>
-                   <input type="text" className="form-control" onChange={formik.handleChange} />
-
-                       <p className='text-danger'>{formik.errors.photo}</p>
-                   
-                     </div>
                    <div className="form-outline mb-4">
+                     <label className="form-label" htmlFor="photo">image</label>
+                       <input type="text" id="photo" className="form-control" value={formik.values.photo}  onChange={formik.handleChange} />
+                       {/* error massage */}
+                       <p className='text-danger'>{formik.errors.photo}</p>
+                     </div>
+                      <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="fname">Name</label>
                        <input type="text" id="fname" className="form-control" value={formik.values.fname}  onChange={formik.handleChange} />
                        {/* error massage */}

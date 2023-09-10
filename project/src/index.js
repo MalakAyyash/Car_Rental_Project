@@ -13,6 +13,7 @@ import LoginPage from './Component/LoginPage/LoginPage.tsx';
 import Signup from './Component/Signup/Signup.tsx';
 import Home from './Component/Home/Home.tsx';
 import PageNotFound from './Component/PageNotFound/PageNotFound.tsx';
+import CarDetails from './Component/CarDetails/CarDetails.tsx';
 
 
 function Main() {
@@ -20,26 +21,29 @@ function Main() {
 
   const router = createBrowserRouter([
     {
+
       path: '/' ,
       element: <Layout />,
       children: [
+        {path: 'login', element:(
+         
+          storedData? <Home  />:<LoginPage />      
+        ),},
+      {path: '*', element:<PageNotFound/>},
         {index: true,element: (
           storedData? <Home  />:<LoginPage />
-
-            // <LoginPage />
         ),},
         {path: 'Signup', element:<Signup/>},
+
+        {path: "/car-details/:carKey", element:<CarDetails/>},
+
         
         {path: 'Home', element:(
          
-            storedData? <Home  />:<PageNotFound />
+            storedData? <Home/>:<PageNotFound />
       
           ),},
-          {path: 'login', element:(
-         
-            storedData? <Home  />:<LoginPage />      
-          ),},
-        {path: '*', element:<PageNotFound/>},
+        
 
 
       ],

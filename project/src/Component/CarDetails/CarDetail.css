@@ -1,0 +1,11 @@
+.carInformation h2{
+    font-size: 40px;
+}
+.carInformation h3{
+    font-size: 30px;
+    font-weight: 600;
+}
+.carInformation p{
+    font-size: 20px;
+}
+

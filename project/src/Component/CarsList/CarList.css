@@ -7,6 +7,30 @@
 .carCard{
     position: relative;
 }
+.carCard:hover::before{
+    content: "";
+    background-color:#808080;
+    position: absolute;
+    top: 0%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    opacity:.7;
+}
+.carCard:hover .detalis{
+opacity: 1;
+}
+.detalis{
+    position: absolute;
+    top: 50%;
+    right: 25%;
+    opacity: 0;
+    z-index:999 ;
+    width: 50%;
+    height: 10%;
+}
+
 .carCard img{
     height:250px;
 }

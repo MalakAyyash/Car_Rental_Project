@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { database } from '../Firebase/Firebase';
-import { get, ref } from 'firebase/database';
+import React from 'react';
 import './CarList.css';
-
+import { Link } from 'react-router-dom';
+import CarData from '../CarData/CarData.tsx';
 
 export default function CarsList() {
-  const [carData, setCarData] = useState({}); // State to store car data
 
-  useEffect(() => {
-    const carDataRef = ref(database, 'carData');
-
-    get(carDataRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const carDataObject = snapshot.val();
-          setCarData(carDataObject);
-        } else {
-          console.log('No data available.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error getting data:', error);
-      });
-  }, []);
+  const carData = CarData(); // get the data of the car from CarData.tsx 
 
   return (
-    <div className='row mt-5'>
+
+    <div className='row mt-5 '>
       {Object.keys(carData).map((carKey) => (
-        <div className='col-md-4' key={carKey}>
-          <div className='card shadow mb-3 rounded-0 carCard'>
-            <img src={carData[carKey].photo} className='w-100' alt='car' />
+        <div className='col-md-4 ' key={carKey}  >
+          <div className='card shadow mb-3 rounded-0 carCard '>
+          <Link to={`/car-details/${carKey}`}>
+            <button className='detalis rounded'>Details</button>
+            </Link>
+            <img src={carData[carKey].photo} className='w-100'alt='car' />
             <h2>{carData[carKey].fname}</h2>
             <h3 className='badge rounded-0'>{carData[carKey].cost}$</h3>
             <hr></hr>
@@ -38,5 +25,6 @@ export default function CarsList() {
         </div>
       ))}
     </div>
+
   );
 }

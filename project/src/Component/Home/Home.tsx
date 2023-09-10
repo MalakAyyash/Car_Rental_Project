@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext } from 'react'
 import Navbar from '../Navbar/Navbar.tsx'
 import Sidebar from '../Sidebar/Sidebar.tsx'
 import CarsList from '../CarsList/CarsList.tsx'
@@ -19,8 +19,8 @@ export default function Home() {
           < Sidebar storedData={storedData} />
         </div>
       <div className='col-10'>
-        <CarsList />
-
+    
+              <CarsList />
 
       </div>
    </div> 
