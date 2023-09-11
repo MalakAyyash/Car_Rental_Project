@@ -1,11 +1,11 @@
-import React, { createContext, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
 import './index.css';
-import { Navigate, RouterProvider, createBrowserRouter, json } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, json } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 import Layout from './Component/Layout/Layout.tsx';
@@ -21,7 +21,7 @@ function Main() {
 
   const router = createBrowserRouter([
     {
-
+      // ===============================ADMIN===========================
       path: '/' ,
       element: <Layout />,
       children: [
@@ -34,27 +34,34 @@ function Main() {
           storedData? <Home  />:<LoginPage />
         ),},
         {path: 'Signup', element:<Signup/>},
-
         {path: "/car-details/:carKey", element:<CarDetails/>},
-
-        
         {path: 'Home', element:(
          
             storedData? <Home/>:<PageNotFound />
       
           ),},
-        
-
-
       ],
     },
+    // ======================================USER=======================
+
     // {
-    //   path: 'admin',
-    //   element: <AdminLayout />,
+    //   path: 'user',
+    //   element: <Layout />,
     //   children: [
-    //     { path: '', element: <Dashbaord /> },
-    //     { path: 'About', element: <About value="massage" /> },
-    //     { path: 'Contact', element: <Contact /> },
+    //     {path: 'login', element:(
+    //       storedData? <Home  />:<LoginPage />      
+    //     ),},
+    //   {path: '*', element:<PageNotFound/>},
+    //     {index: true,element: (
+    //       storedData? <Home  />:<LoginPage />
+    //     ),},
+    //     {path: 'Signup', element:<Signup/>},
+    //     {path: "/car-details/:carKey", element:<CarDetails/>},
+    //     {path: 'Home', element:(
+         
+    //         storedData? <Home/>:<PageNotFound />
+      
+    //       ),},
     //   ],
     // },
   ]);
