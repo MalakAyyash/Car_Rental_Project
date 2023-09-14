@@ -1,18 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './LoginPage.css';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik'
-import * as Yup from 'yup';
-import { ref, push, set, get } from 'firebase/database';
+import { ref, get } from 'firebase/database';
 import { database } from '../Firebase/Firebase';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
-
 
 export default function LoginPage() {
 
   const [error, setError] = useState("");
   const [login, setLogin] = useState(false);
+const [rolesPath, setRolesPath] = useState(''); 
+
 
     const formik = useFormik({ // Formik to store the data from form 
         initialValues:{ //initial value
@@ -32,9 +30,11 @@ export default function LoginPage() {
             (key) => userData[key].Email === values.email
           );
           if (userKey && userData[userKey].Password === values.password) {
-            console.log('Login success');
             localStorage.setItem('userData',JSON.stringify(userData[userKey]))
             setLogin(true)
+            const role = userData[userKey].role;
+            const rolePath = role === 'admin' ? '/Home' : '/user/user-Home';
+            setRolesPath(rolePath)
             
           } else {
             setError("Invalid email or password. Please try again.");
@@ -73,10 +73,9 @@ export default function LoginPage() {
                     <input type="password" id="password" className="form-control" value={formik.values.password} onChange={formik.handleChange} />
                   </div>
                   <div className="text-center pt-1 mb-5 pb-1">
-                    <button className='btn rounded-0 btn-block fa-lg  mb-3 me-2 text-light bg-secondary' type="submit">
-                      {login ?<Link className=" text-light text-decoration-none" to="Home">Login</Link>:
+                    <button className='btn rounded-0 btn-block mb-3 me-2 text-light bg-secondary' type="submit">
+                      {login ?<Link className=" text-light text-decoration-none" to={`${rolesPath}`}>Login</Link>:
                       <button  className=" text-light text-decoration-none btn" >Login</button>}
-
                       </button>
                     {error && (
                       <div className="alert alert-danger" role="alert">
@@ -86,7 +85,7 @@ export default function LoginPage() {
                   </div>
                   <div className="d-flex align-items-center justify-content-center pb-4">
                     <p className="mb-0 me-2">Don't have an account?</p>
-                    <Link  className="btn btn-outline-secondary rounded-0" to="Signup">Create new</Link>
+                    <Link  className="btn btn-outline-secondary rounded-0" to="/Signup">Create new</Link>
                   </div>
                 </form>
               </div>

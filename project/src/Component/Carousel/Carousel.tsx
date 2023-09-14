@@ -11,9 +11,9 @@ export default function Carousel({ carKey, carData }) {
     <button type="button" data-bs-target="#demo" data-bs-slide-to={1} />
     <button type="button" data-bs-target="#demo" data-bs-slide-to={2} />
   </div>
-  <div className="carousel-inner">
+  <div className="carousel-inner mt-5 ">
     <div className="carousel-item active">
-    <img src={carData[carKey].photo} className='carImg w-100 'alt='car' />
+    <img src={carData[carKey].photo} className='carImg 'alt='car' />
     </div>
     <div className="carousel-item">
     <img src={carData[carKey].photo2} className=' carImg w-100'alt='car' />

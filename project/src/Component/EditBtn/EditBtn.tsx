@@ -2,7 +2,6 @@ import { push, ref, set, onValue } from 'firebase/database';
 import { useFormik } from 'formik';
 import React from 'react'
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 import * as Yup from 'yup';
 import { database } from '../Firebase/Firebase';
 
@@ -47,11 +46,11 @@ export default function EditBtn({carKey,carData , setEditClicked}) {
     title: 'Edit the Car',
     html: `
       <input id="fname" type="text" class="swal2-input w-75 mb-2" name="fname" placeholder="Name" value="${formik.values.fname || ''}"/>
-      <input id="cost" type="text" class="swal2-input w-75 mb-2" name="cost" placeholder="Cost Per Day" value="${formik.values.cost || ''}"  />
-      <input id="photo" type="text" class="swal2-input w-75 mb-2"  name="photo" placeholder="URL image 1" value="${formik.values.photo || ''}"/>
-      <input id="photo2" type="text" class="swal2-input w-75 mb-2"  name="photo2" placeholder="URL image 2" value="${formik.values.photo2 || ''}"/>
+      <input id="cost" type="text" class="swal2-input w-75 mb-2 " name="cost" placeholder="Cost Per Day" value="${formik.values.cost || ''}"  />
+      <input id="photo" type="text" class="swal2-input w-75 mb-2 "  name="photo" placeholder="URL image 1" value="${formik.values.photo || ''}"/>
+      <input id="photo2" type="text" class="swal2-input w-75 mb-2 "  name="photo2" placeholder="URL image 2" value="${formik.values.photo2 || ''}"/>
       <input id="photo3" type="text" class="swal2-input w-75 mb-2"  name="photo3" placeholder="URL image 3" value="${formik.values.photo3 || ''}"/>
-      <textarea id="details" class="swal2-input w-75" placeholder="Details" name="details" value="${formik.values.details || ''}/"></textarea>
+      <textarea id="details" class="swal2-input w-75  " placeholder="Details" name="details" style="color: inherit;">${formik.values.details || ''}</textarea>
     `,
     showCancelButton: true,
     confirmButtonText: 'edit',

@@ -1,10 +1,6 @@
-import React from 'react'
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, push, set } from 'firebase/database';
-// import { storage } from './firebase'; // Make sure the path to 'firebase' is correct
+import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCDVRwHK-2GfPUmMHSm4OuYiyBdpqzoXPI",

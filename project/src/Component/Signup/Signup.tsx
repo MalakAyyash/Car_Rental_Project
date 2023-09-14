@@ -1,15 +1,15 @@
 import { useFormik } from 'formik'
-import React, { useState } from 'react'; 
+import React from 'react'; 
 import * as Yup from 'yup';
 import { ref, push, set } from 'firebase/database';
 import { database, storage } from '../Firebase/Firebase';
-
-
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 
 const schema = Yup.object({ // validation 
+  role: Yup.string().required("role is required"),
   photo: Yup.string().required("photo is required"),
   fname: Yup.string().required("name is required"),
   email: Yup.string().required("email is required").email('not valid email'),
@@ -18,10 +18,8 @@ const schema = Yup.object({ // validation
 
 });
 
-
 export default function Signup() {
-
-
+  const navigate = useNavigate();
 
     const formik = useFormik({ // Formik to store the data from form 
         initialValues:{ //initial value
@@ -29,7 +27,9 @@ export default function Signup() {
             fname: '',
             email: '',
             password: '',
-            confirm: ''
+            confirm: '',
+            role: ''
+
         },validationSchema:schema,
         onSubmit:async  (values) => {
             console.log('Form submitted with values:', values);
@@ -40,16 +40,19 @@ export default function Signup() {
               fname: values.fname,
               Email: values.email,
               Password: values.password,
+              role: values.role,
+
             });
+            if (values.role === 'admin'){
+              navigate('/login');
+            }
+            if (values.role === 'user'){
+              navigate('/user/login');
+            }
+
           },
     })
-    const [imgUpload , setimgUpload] = useState(null)
-    const uploadImage = () =>{
-      if (imgUpload => null) return;
-    };
-
- 
-
+  
   return ( //html form
     <div>
     <section className="h-100 gradient-form" style={{backgroundColor: '#eee'}}>
@@ -65,6 +68,15 @@ export default function Signup() {
                      <h4 className="mt-1 mb-3 pb-1 logoTitle">Car Rental</h4>
                    </div>
                    <form onSubmit={formik.handleSubmit} >
+
+                  <div className="form-outline mb-4">
+                  <p>WHO ARE YOU ?</p>
+                  <input   type="radio" id="html" name="role" value='user' onChange={formik.handleChange} checked={formik.values.role === 'user'}/>
+                  <label className ="m-2" for="admin">User</label>
+                  <input type="radio" id="css" name="role" value="admin" onChange={formik.handleChange} checked={formik.values.role === 'admin'}/>
+                  <label className ="m-2"for="admin">Admin</label><br/>
+                  <p className='text-danger'>{formik.errors.role}</p>
+                  </div>
 
                    <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="photo">image</label>
@@ -95,7 +107,10 @@ export default function Signup() {
 
                      </div>
                      <div className="text-center pt-1  pb-1">
-                       <button className="btn rounded-0 btn-block fa-lg me-2 text-light bg-secondary" type="submit" >Sign up</button>
+                      {/* <Link to="/login"> */}
+                       <button className="btn rounded-0 btn-block  me-2 text-light bg-secondary" type="submit" >Sign up</button>
+                      {/* </Link> */}
+
                      </div>
                    </form>
                  </div>

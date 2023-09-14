@@ -39,7 +39,7 @@ export default function AddBtn({setAddClicked}) {
           photo2: values.photo2,
           photo3: values.photo3,
           fname: values.fname,
-          id: values.id,
+          id: {uniqueId},
           details: values.details,
           available: values.available,
           cost: values.cost,
@@ -80,6 +80,7 @@ export default function AddBtn({setAddClicked}) {
       const carDataRef = ref(database, 'carData');
         const newCarEntry = push(carDataRef);
         set(newCarEntry, {
+          id:parseInt(Date.now() * Math.random()), //to generate a uniq id
           photo,
           photo2,
           photo3,
