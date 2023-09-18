@@ -5,13 +5,11 @@ import { useTable, useSortBy, usePagination  } from 'react-table';
 import { FaCaretSquareUp, FaCaretSquareDown } from "react-icons/fa";
 import './RentData.css';
 
-
 export default function RentData() {
   const [rentData, setRentData] = useState({});
   const [filteredRentData, setFilteredRentData] = useState([]);
   const storedData = localStorage.getItem('userData');
   const userEmail = JSON.parse(storedData).Email;
-
   // Define columns // use memo to memoize the columns and data variables
   const columns = React.useMemo(
     () => [
@@ -23,7 +21,6 @@ export default function RentData() {
     ],
     []
   );
-
   const data = React.useMemo(() => { //the data fetched from firebase
     return filteredRentData.map((item) => ({
       id: item.id,
@@ -33,7 +30,6 @@ export default function RentData() {
       total: item.cost,
     }));
   }, [filteredRentData]);
-
   useEffect(() => {
     const carRentRef = ref(database, 'carRent');
     get(carRentRef)
@@ -49,31 +45,24 @@ export default function RentData() {
         console.error('Error getting data:', error);
       });
   }, []);
-
   useEffect(() => {
     if (userEmail && rentData) {
       const filteredData = Object.values(rentData).filter((item) => item.email === userEmail);
       setFilteredRentData(filteredData);
     }
   }, [userEmail, rentData]);
-
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
-    // pagination props
     page,
     canNextPage,
     canPreviousPage,
     pageOptions,
-    pageCount,
-    gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize }
+    state: { pageIndex}
   } = useTable(
     {
       columns,
@@ -82,10 +71,7 @@ export default function RentData() {
     },
     useSortBy,//for sorting
     usePagination
-
-
   );
-  
   return (
     <div className="container mt-4">
       <table {...getTableProps()} className="table table-striped table-striped">
@@ -144,5 +130,4 @@ export default function RentData() {
       </div>
     </div>
   );
-
 }

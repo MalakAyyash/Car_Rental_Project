@@ -1,7 +1,10 @@
-import React, {useState } from 'react';
-import AddBtn from '../AddBtn/AddBtn.tsx';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function NavbarUser() {
+  const signOut = () =>{
+    localStorage.removeItem('userData');
+  }
   return (
     <div>
         <nav className="navbar bg-dark  border">
@@ -10,6 +13,7 @@ export default function NavbarUser() {
         <h4 className=" logoTitle text-light">Car Rental</h4>
         </a>
         </div>
+        <Link to="/login"><button className="text-decoration-none text-light btn" onClick = {signOut}>Sign out</button></Link>
         </nav>
 
     </div>

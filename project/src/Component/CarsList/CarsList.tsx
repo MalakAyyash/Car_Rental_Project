@@ -11,13 +11,14 @@ export default function CarsList() {
   // Initialize the path based on the role
   const initialPath = role === 'admin' ? '/car-details/' : '/user/car-details/';
   const [path, setPath] = useState(initialPath); 
-   return (
+  // const available = carData[carKey].available
 
+   return (
     <div className='row mt-5 '>
       {Object.keys(carData).map((carKey) => (
+        carData[carKey].available?(
         <div className='col-md-4 ' key={carKey}  >
           <div className='card shadow mb-3 rounded-0 carCard '>
-       
           <Link to={`${path}${carKey}`}>
             <button className='detalis rounded'>Details</button>
             </Link>
@@ -27,9 +28,8 @@ export default function CarsList() {
             <hr></hr>
             <p className='p-3'>{carData[carKey].details}</p>
           </div>
-        </div>
+        </div>):null
       ))}
     </div>
-
   );
 }

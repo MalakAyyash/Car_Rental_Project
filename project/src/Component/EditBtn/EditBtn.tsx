@@ -13,8 +13,7 @@ const schema = Yup.object({ // validation
     details: Yup.string().required("details is required"),
     cost: Yup.number().required("cost is required"),
   });
-
-
+  
 export default function EditBtn({carKey,carData , setEditClicked}) {
     setEditClicked(false)
     //put the value inside the input fields
@@ -41,7 +40,6 @@ export default function EditBtn({carKey,carData , setEditClicked}) {
     });
   },
 })
-
   Swal.fire({
     title: 'Edit the Car',
     html: `
@@ -62,7 +60,32 @@ export default function EditBtn({carKey,carData , setEditClicked}) {
       const photo2 = Swal.getPopup().querySelector('#photo2').value;
       const photo3 = Swal.getPopup().querySelector('#photo3').value;
       const details = Swal.getPopup().querySelector('#details').value;
-
+      //  validate the fields
+      if (!fname ) {
+        Swal.showValidationMessage('Car name is required');
+        return false; 
+      }
+      else if (!cost ){
+        Swal.showValidationMessage('cost is required');
+        return false; 
+      }
+      if (isNaN(cost)) {
+        Swal.showValidationMessage('Cost must be a number');
+        return false;
+      }
+      else if (!photo ){
+        Swal.showValidationMessage('image is required');
+        return false; 
+      } else if (!photo2 ){
+        Swal.showValidationMessage('second image is required');
+        return false;
+      } else if (!photo3 ){
+        Swal.showValidationMessage('third image is required');
+        return false;
+      } else if (!details ){
+        Swal.showValidationMessage('details is required');
+        return false;
+      }
       try {
         formik.setValues({
           ...formik.values,
@@ -73,7 +96,6 @@ export default function EditBtn({carKey,carData , setEditClicked}) {
           photo3,
           details,
         });
-
         const carRef = ref(database, `carData/${carKey}`);
         onValue(carRef, (snapshot) => {
           const existingData = snapshot.val();
@@ -83,11 +105,10 @@ export default function EditBtn({carKey,carData , setEditClicked}) {
           existingData.fname = fname;
           existingData.cost = cost;
           existingData.details = details;
-
           const objectFormRef = ref(database, `carData/${carKey}`);
           set(objectFormRef, existingData).then(() => {
             Swal.fire({
-                title: 'Edited!',
+                title: 'Car Informations Edited!',
                 icon: 'success',
                 confirmButtonText: 'OK'
               }).then((result) => {
@@ -103,8 +124,6 @@ export default function EditBtn({carKey,carData , setEditClicked}) {
       }
     },
   });
-
-
   return (
   <>
   </>

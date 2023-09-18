@@ -4,13 +4,9 @@ import Sidebar from '../Sidebar/Sidebar.tsx'
 import RentData from '../RentData/RentData.tsx'
 import AdminRentData from '../AdminRentData/AdminRentData.tsx'
 
-
-
 export default function History() {
     const storedData = localStorage.getItem('userData');
     const role = JSON.parse(storedData).role;
-    console.log(role)
-
     //get the data from locak storage
     if (storedData) {
   return (
@@ -25,6 +21,5 @@ export default function History() {
             </div>
         </div> 
     </div>
-   
    )
 }}

@@ -4,7 +4,7 @@ import React from 'react'
 import withReactContent from 'sweetalert2-react-content'; 
 import Swal from 'sweetalert2';
 import * as Yup from 'yup';
-import { ref, push, set } from 'firebase/database';
+import { ref, push, set, update } from 'firebase/database';
 import { database } from '../Firebase/Firebase';
 
 const schema = Yup.object({ // validation 
@@ -19,10 +19,8 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
   var myData = localStorage.getItem('userData');
   var userData = JSON.parse(myData);
   const email = userData.Email;
-
   const id = carData[carKey].id
   const fname = carData[carKey].fname
-
   setRentClicked(false)
   const formik = useFormik({ // Formik to store the data from form 
   initialValues:{ //initial value
@@ -31,7 +29,8 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
       cost: '',
       id:'',
       email:'',
-      fname:''
+      fname:'',
+      available:'',
   },validationSchema:schema,
   onSubmit:async  (values) => {
       console.log('Form submitted with values:', values);
@@ -42,34 +41,29 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
           to: values.to,
           cost: values.cost,
           id: values.id,
-          email: values.email,
-          fname: values.fname
+          email: email,
+          fname: values.fname,
       });
     },
 })
- 
     const customButtonClicked = () => {
       const start= new Date(from.value);
       const end = new Date(to.value);
-  
       if (isNaN(start) || isNaN(end)) {
         formik.setFieldValue('cost', '');
         return;
       }
       const difference = Math.abs(end - start);
       const differenceInDays = Math.ceil(difference / (1000 * 60 * 60 * 24))*carData[carKey].cost;
-
       document.querySelector('#cost').value =  differenceInDays.toString() + "$";
-
-    
     };
-
     MySwal.fire({
       title: 'Rent a Car',
       html: (
         <div>
-          <input id="from" type="date" className="swal2-input w-75 mb-2" name="from" placeholder="from"  onChange={formik.handleChange} />
-          <input id="to" type="date" className="swal2-input w-75 mb-2" name="to" placeholder="to"onChange={formik.handleChange} />
+          { /* Set min to today's date */ }
+          <input id="from" type="date" className="swal2-input w-75 mb-2" name="from" placeholder="from"  onChange={formik.handleChange}   min={new Date().toISOString().split("T")[0]} />
+          <input id="to" type="date" className="swal2-input w-75 mb-2" name="to" placeholder="to"onChange={formik.handleChange} min={new Date().toISOString().split("T")[0]}  />
           <label  className="swal2-input w-75 mt-3"  name="cost" >Total Cost </label>
           <input id="cost" type="text" className="swal2-input w-75 mb-2 mt-0" name="cost"  readOnly />
           <button
@@ -87,9 +81,13 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
         const from = Swal.getPopup().querySelector('#from').value;
         const to = Swal.getPopup().querySelector('#to').value;
         const cost = Swal.getPopup().querySelector('#cost').value;
+      //  validate the fields
+      if (!from && !to ) {
+        Swal.showValidationMessage('Date is required');
+        return false; 
+      }
 
   try {
-  
     formik.setValues({
         ...formik.values,
         from,
@@ -98,9 +96,8 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
         id,
         email,
         fname,
-
     });
-  const carDataRef = ref(database, 'carRent');
+    const carDataRef = ref(database, 'carRent');
     const newCarRent = push(carDataRef);
     set(newCarRent, {
         from,
@@ -108,8 +105,7 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
         cost,
         id,
         email,
-        fname
-     
+        fname,
     });
     Swal.fire({
         title: 'Rented!',
@@ -118,10 +114,14 @@ export default function RentBtn({carData,carKey,setRentClicked}) {
       }).then((result) => {
         if (result['isConfirmed']){
             window.location.reload();
-}
+        }
       })
-  formik.resetForm();
-
+      const carRef = ref(database, `carData/${carKey}`);
+      const updatedValue = {
+        available: false,
+      };
+      update(carRef, updatedValue)
+      formik.resetForm();
   } catch (error) {
       Swal.showValidationMessage(`Rent failed: ${error}`);
   }}

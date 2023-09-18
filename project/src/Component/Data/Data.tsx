@@ -4,23 +4,18 @@ export default function Data() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [differenceInDays, setDifferenceInDays] = useState(null);
-
   const calculateDifference = () => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-
     if (isNaN(start) || isNaN(end)) {
       // Handle invalid date input
       setDifferenceInDays(null);
       return;
     }
-
     const difference = Math.abs(end - start);
     const differenceInDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
-
     setDifferenceInDays(differenceInDays);
   };
-
   return (
     <div>
       <h2>Date Difference Calculator</h2>

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { database } from '../Firebase/Firebase';
 import { get, ref } from 'firebase/database';
 
 export default function CarData() {
     const [carData, setCarData] = useState({}); // State to store car data
-
     useEffect(() => {
       const carDataRef = ref(database, 'carData');
       get(carDataRef)
@@ -22,5 +21,4 @@ export default function CarData() {
     }, []);
 
     return carData;
-
 }

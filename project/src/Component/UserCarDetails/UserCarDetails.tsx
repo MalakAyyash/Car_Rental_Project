@@ -11,9 +11,7 @@ export default function UserCarDetails() {
 const carData = CarData(); // get the data of the car from CarData.tsx 
 const { carKey } = useParams(); //use params "react hook"
 const [rentClicked , setRentClicked] = useState(false);
-
 const storedData = localStorage.getItem('userData');
-
 // ============================== rent btn ===============================
 function Rent(carKey:any,carData:any) {
   setRentClicked(true)
@@ -31,7 +29,6 @@ if (storedData) {
               <Sidebar storedData={storedData} />
             </div>
             <div className='col-10 row'>
-
                 <div className="col-md-6">
                     <Carousel carKey={carKey} carData={carData} />
                 </div>
@@ -41,7 +38,6 @@ if (storedData) {
                     <p className='text-light bg-dark p-5 m-2'>{selectedCar.details}</p>
                     <button className='ms-3 my-3 rounded w-100 ' onClick = {() => Rent(carKey,carData)}>Rent</button>
                     {rentClicked?<RentBtn carKey={carKey} carData={carData}  setRentClicked={setRentClicked}/>:null} 
-
                 </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import './Carousel.css';
 
-
 export default function Carousel({ carKey, carData }) {
     
   return (
@@ -29,6 +28,5 @@ export default function Carousel({ carKey, carData }) {
     <span className="carousel-control-next-icon" />
   </button>
 </div>
-
   )
 }

@@ -9,14 +9,11 @@ import './CarDetail.css';
 import EditBtn from '../EditBtn/EditBtn.tsx';
 
 export default function CarDetails() {
-
 const carData = CarData(); // get the data of the car from CarData.tsx 
 const { carKey } = useParams(); //use params "react hook"
 const [deleteClicked , setDeleteClicked] = useState(false);
 const [editClicked , setEditClicked] = useState(false);
-
 const storedData = localStorage.getItem('userData');
-
 // ========================= delete btn ====================================
 function Delete(carKey:any,carData:any) {
   setDeleteClicked(true)
@@ -38,7 +35,6 @@ if (storedData) {
               <Sidebar storedData={storedData} />
             </div>
             <div className='col-10 row'>
-
                 <div className="col-md-6">
                     <Carousel carKey={carKey} carData={carData} />
                 </div>
@@ -50,7 +46,6 @@ if (storedData) {
                     <button className='ms-3 my-3 rounded w-25 ' onClick={() => Edit(carKey,carData)}>Edit</button>
                     {deleteClicked?<DeleteBtn carKey={carKey} carData={carData} />:null} 
                     {editClicked?<EditBtn carKey={carKey} carData={carData}  setEditClicked={setEditClicked}/>:null} 
-
                 </div>
             </div>
           </div>

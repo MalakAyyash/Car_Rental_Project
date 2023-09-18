@@ -29,8 +29,6 @@ export default function DeleteBtn({carKey,carData }) {
       
   return (
     <>
-  
-
     </>
   )
 }

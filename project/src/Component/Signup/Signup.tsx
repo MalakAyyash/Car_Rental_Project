@@ -1,12 +1,9 @@
 import { useFormik } from 'formik'
-import React from 'react'; 
+import React, {useState} from 'react'; 
 import * as Yup from 'yup';
-import { ref, push, set } from 'firebase/database';
-import { database, storage } from '../Firebase/Firebase';
-import { Link, useNavigate } from 'react-router-dom';
-
-
-
+import { ref, push, set, get, child } from 'firebase/database';
+import { database} from '../Firebase/Firebase';
+import {useNavigate } from 'react-router-dom';
 
 const schema = Yup.object({ // validation 
   role: Yup.string().required("role is required"),
@@ -19,42 +16,39 @@ const schema = Yup.object({ // validation
 });
 
 export default function Signup() {
+  const [emailExists, setEmailExists] = useState(false);
+  const [nameExists, setNameExists] = useState(false);
   const navigate = useNavigate();
+  const formik = useFormik({ // Formik to store the data from form 
+  initialValues:{ //initial value
+      photo: '',
+      fname: '',
+      email: '',
+      password: '',
+      confirm: '',
+      role: ''
+  },validationSchema:schema,
+  onSubmit:async  (values) => {
+    const signupRef = ref(database, 'signupData');
+    const newSignupEntry = push(signupRef); // Push a new entry
+        set(newSignupEntry, {
+          photo: values.photo,
+          fname: values.fname,
+          Email: values.email,
+          Password: values.password,
+          role: values.role,
+        });
+        if (values.role === 'admin'){
+          navigate('/login');
+        }
+        if (values.role === 'user'){
+          navigate('/user/login');
+        }
+    },
+  })
 
-    const formik = useFormik({ // Formik to store the data from form 
-        initialValues:{ //initial value
-            photo: '',
-            fname: '',
-            email: '',
-            password: '',
-            confirm: '',
-            role: ''
-
-        },validationSchema:schema,
-        onSubmit:async  (values) => {
-            console.log('Form submitted with values:', values);
-            const signupRef = ref(database, 'signupData');
-            const newSignupEntry = push(signupRef); // Push a new entry
-            set(newSignupEntry, {
-              photo: values.photo,
-              fname: values.fname,
-              Email: values.email,
-              Password: values.password,
-              role: values.role,
-
-            });
-            if (values.role === 'admin'){
-              navigate('/login');
-            }
-            if (values.role === 'user'){
-              navigate('/user/login');
-            }
-
-          },
-    })
-  
-  return ( //html form
-    <div>
+return ( //html form
+ <div>
     <section className="h-100 gradient-form" style={{backgroundColor: '#eee'}}>
      <div className="container py-5 h-100">
        <div className="row d-flex justify-content-center align-items-center h-100">
@@ -68,7 +62,6 @@ export default function Signup() {
                      <h4 className="mt-1 mb-3 pb-1 logoTitle">Car Rental</h4>
                    </div>
                    <form onSubmit={formik.handleSubmit} >
-
                   <div className="form-outline mb-4">
                   <p>WHO ARE YOU ?</p>
                   <input   type="radio" id="html" name="role" value='user' onChange={formik.handleChange} checked={formik.values.role === 'user'}/>
@@ -77,7 +70,6 @@ export default function Signup() {
                   <label className ="m-2"for="admin">Admin</label><br/>
                   <p className='text-danger'>{formik.errors.role}</p>
                   </div>
-
                    <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="photo">image</label>
                        <input type="text" id="photo" className="form-control" value={formik.values.photo}  onChange={formik.handleChange} />
@@ -93,7 +85,10 @@ export default function Signup() {
                      <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="email">Email</label>
                        <input type="email" id="email" className="form-control" value={formik.values.email} onChange={formik.handleChange} />
-                       <p className='text-danger'>{formik.errors.email}</p> 
+                       <p className='text-danger'>{formik.errors.email}</p>
+                       {emailExists?<p>nooooiiiiiiiiiiiiiiiiiiii</p>:null}
+ 
+                       
                      </div>
                      <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="password">Password</label>
@@ -104,13 +99,11 @@ export default function Signup() {
                      <label className="form-label" htmlFor="confirm">Confirm Password</label>
                        <input type="password" id="confirm" className="form-control" value={formik.values.confirm} onChange={formik.handleChange}/>
                        <p className='text-danger'>{formik.errors.confirm}</p>
-
                      </div>
                      <div className="text-center pt-1  pb-1">
                       {/* <Link to="/login"> */}
                        <button className="btn rounded-0 btn-block  me-2 text-light bg-secondary" type="submit" >Sign up</button>
                       {/* </Link> */}
-
                      </div>
                    </form>
                  </div>
@@ -125,7 +118,6 @@ export default function Signup() {
        </div>
      </div>
    </section>
-   
-       </div>
-  )
+  </div>
+)
 }
