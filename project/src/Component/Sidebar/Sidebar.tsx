@@ -29,7 +29,7 @@ return (
     <hr className='text-light'/>
     <ul className="nav nav-pills flex-column mb-auto">
       <li className="nav-item">
-        <Link to={`${list}`} className={` text-light nav-link ${activeLink === 'Cars' ? 'active' : ''}`} aria-current="page">
+        <Link to={`${list}`} className={` text-light nav-link  ${activeLink === 'Cars' ? 'active' : ''}`} aria-current="page">
           Cars
         </Link>
       </li>

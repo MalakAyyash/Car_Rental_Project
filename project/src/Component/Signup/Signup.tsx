@@ -4,6 +4,10 @@ import * as Yup from 'yup';
 import { ref, push, set, get, child } from 'firebase/database';
 import { database} from '../Firebase/Firebase';
 import {useNavigate } from 'react-router-dom';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+
+
 
 const schema = Yup.object({ // validation 
   role: Yup.string().required("role is required"),
@@ -16,9 +20,44 @@ const schema = Yup.object({ // validation
 });
 
 export default function Signup() {
-  const [emailExists, setEmailExists] = useState(false);
-  const [nameExists, setNameExists] = useState(false);
+  const [isEmailExists, setIsEmailExists] = useState(false);
+  const [isNameExists, setIsNameExists] = useState(false);
   const navigate = useNavigate();
+// Function to check if email exists in the database
+const checkEmailExistsInDatabase = async (email) => { //to ensure that there is no 2 same email
+  try {
+    const signupRef = ref(database, 'signupData');//open firebase
+    const snapshot = await get(signupRef);//get the data
+
+    if (snapshot.exists()) {//if the data exist
+      const userEntries = Object.entries(snapshot.val());//the entiries of the table
+      const emailExists = userEntries.some(([key, userData]) => userData.Email === email);//check if there is an email
+      return emailExists;//return true if there is
+    }
+    return false; // Database is empty, so the email doesn't exist
+  } catch (error) {
+    console.error('Error checking email existence in the database:', error);
+    return false;
+  }
+};
+// Function to check if email exists in the database
+const checkNameExistsInDatabase = async (fname) => { //to ensure that there is no 2 same email
+  try {
+    const signupRef = ref(database, 'signupData');//open firebase
+    const snapshot = await get(signupRef);//get the data
+
+    if (snapshot.exists()) {//if the data exist
+      const userEntries = Object.entries(snapshot.val());//the entiries of the table
+      const nameExists = userEntries.some(([key, userData]) => userData.fname === fname);//check if there is the same name
+      return nameExists;//return true if there is
+    }
+    return false; // Database is empty, so the name doesn't exist
+  } catch (error) {
+    console.error('Error checking name existence in the database:', error);
+    return false;
+  }
+};
+
   const formik = useFormik({ // Formik to store the data from form 
   initialValues:{ //initial value
       photo: '',
@@ -31,21 +70,38 @@ export default function Signup() {
   onSubmit:async  (values) => {
     const signupRef = ref(database, 'signupData');
     const newSignupEntry = push(signupRef); // Push a new entry
-        set(newSignupEntry, {
-          photo: values.photo,
-          fname: values.fname,
-          Email: values.email,
-          Password: values.password,
-          role: values.role,
-        });
-        if (values.role === 'admin'){
-          navigate('/login');
-        }
-        if (values.role === 'user'){
-          navigate('/user/login');
-        }
-    },
+    const emailExistsInDatabase = await checkEmailExistsInDatabase(values.email);
+    const nameExistsInDatabase = await checkNameExistsInDatabase(values.fname);
+    if (emailExistsInDatabase) {
+      setIsEmailExists(true);
+    } else {
+      setIsEmailExists(false); // Reset the emailExists state if it was previously set
+    }
+
+    if (nameExistsInDatabase) {
+      setIsNameExists(true);
+    } else {
+      setIsNameExists(false); // Reset the nameExists state if it was previously set
+    }
+
+    if (!emailExistsInDatabase && !nameExistsInDatabase) {
+    set(newSignupEntry, {
+      photo: values.photo,
+      fname: values.fname,
+      Email: values.email,
+      Password: values.password,
+      role: values.role,
+    });
+    if (values.role === 'admin'){
+      navigate('/login');
+    }
+    if (values.role === 'user'){
+      navigate('/user/login');
+    }
+   }},
   })
+// ==============================================================================================================
+
 
 return ( //html form
  <div>
@@ -81,12 +137,14 @@ return ( //html form
                        <input type="text" id="fname" className="form-control" value={formik.values.fname}  onChange={formik.handleChange} />
                        {/* error massage */}
                        <p className='text-danger'>{formik.errors.fname}</p>
+                       {isNameExists?<p className='text-danger'>Name exist,please choose another one</p>:null}
+
                      </div>
                      <div className="form-outline mb-4">
                      <label className="form-label" htmlFor="email">Email</label>
                        <input type="email" id="email" className="form-control" value={formik.values.email} onChange={formik.handleChange} />
                        <p className='text-danger'>{formik.errors.email}</p>
-                       {emailExists?<p>nooooiiiiiiiiiiiiiiiiiiii</p>:null}
+                       {isEmailExists?<p className='text-danger'>Email exist, please choose another one</p>:null}
  
                        
                      </div>
