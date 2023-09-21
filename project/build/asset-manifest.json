@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.dba08875.css",
-    "main.js": "/static/js/main.7042cc96.js",
+    "main.js": "/static/js/main.d52dc386.js",
     "static/js/787.ec704a7a.chunk.js": "/static/js/787.ec704a7a.chunk.js",
     "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.d75e3fd1eb12e9bd6655.ttf",
     "static/media/carLogo.jpg": "/static/media/carLogo.5c202c59c03d2d7df0bd.jpg",
@@ -15,11 +15,11 @@
     "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.1bac2991f3dbfa237aec.woff2",
     "index.html": "/index.html",
     "main.dba08875.css.map": "/static/css/main.dba08875.css.map",
-    "main.7042cc96.js.map": "/static/js/main.7042cc96.js.map",
+    "main.d52dc386.js.map": "/static/js/main.d52dc386.js.map",
     "787.ec704a7a.chunk.js.map": "/static/js/787.ec704a7a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.dba08875.css",
-    "static/js/main.7042cc96.js"
+    "static/js/main.d52dc386.js"
   ]
 }
