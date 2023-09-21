@@ -1,0 +1,52 @@
+.carCard h2 {
+    font-weight: 600;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 30px;
+    padding-left: 10%;
+}
+.carCard{
+    position: relative;
+}
+.carCard:hover::before{
+    content: "";
+    background-color:#808080;
+    position: absolute;
+    top: 0%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    opacity:.7;
+}
+.carCard:hover .detalis{
+opacity: 1;
+}
+.detalis{
+    position: absolute;
+    top: 50%;
+    right: 25%;
+    opacity: 0;
+    z-index:999 ;
+    width: 50%;
+    height: 10%;
+}
+
+.carCard img{
+    height:250px;
+}
+.carCard h3 {
+    font-size: 20px;
+    padding-left: 10%;
+    background-color: green;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.carCard p {
+    font-size: 15px;
+    padding-left: 10%;
+    display: flex;
+    justify-content: center;
+    height: 150px;
+   
+}

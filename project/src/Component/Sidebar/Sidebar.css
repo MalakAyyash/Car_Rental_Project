@@ -1,0 +1,7 @@
+.sidebar{
+    height: 100vh;
+}
+.nav-link.active {
+    background-color: white; /* Change the background color for the active link */
+    color: black; /* You can adjust the text color as needed */
+  }

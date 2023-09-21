@@ -1,0 +1,14 @@
+
+.carousel-item {
+    max-height: 400px;
+    max-width: 100%; 
+    overflow: hidden;
+  }
+.carousel-item img {
+    width: 100%; 
+    height:  350px; 
+  }
+.carousel-inner{
+    display: flex;
+    align-items: center;
+}
